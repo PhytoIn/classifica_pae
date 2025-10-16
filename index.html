@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classificação Geral</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+        }
+        
+        h1 {
+            color: #2E7D32;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+        
+        .upload-section {
+            margin-bottom: 40px;
+            padding: 40px;
+            border: 3px dashed #81C784;
+            border-radius: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #F1F8E9 0%, #F9FBE7 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-section:hover {
+            border-color: #66BB6A;
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            transform: translateY(-2px);
+        }
+        
+        .upload-section.drag-over {
+            border-color: #43A047;
+            background: linear-gradient(135deg, #C8E6C9 0%, #E8F5E9 100%);
+            transform: scale(1.02);
+        }
+        
+        h3 {
+            color: #43A047;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .file-input {
+            margin: 20px 0;
+            padding: 12px 20px;
+            border: 2px solid #A5D6A7;
+            border-radius: 12px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-input:hover {
+            border-color: #66BB6A;
+        }
+        
+        .drag-text {
+            color: #66BB6A;
+            font-size: 16px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #43A047 0%, #66BB6A 100%);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.4);
+            background: linear-gradient(135deg, #388E3C 0%, #43A047 100%);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%);
+            box-shadow: 0 4px 12px rgba(100, 181, 246, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
+            box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4);
+        }
+
+        .btn-tertiary {
+            background: linear-gradient(135deg, #81C784 0%, #66BB6A 100%);
+            box-shadow: 0 4px 12px rgba(129, 199, 132, 0.3);
+        }
+
+        .btn-tertiary:hover {
+            background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
+            box-shadow: 0 6px 20px rgba(129, 199, 132, 0.4);
+        }
+
+            .btn-info {
+                background: linear-gradient(135deg, #FFB74D 0%, #FFA726 100%);
+            box-shadow: 0 4px 12px rgba(255, 183, 77, 0.3);
+        }
+        
+        .btn-info:hover {
+            background: linear-gradient(135deg, #FFA726 0%, #FF9800 100%);
+            box-shadow: 0 6px 20px rgba(255, 183, 77, 0.4);
+        }
+        
+        .results-section {
+            margin-top: 40px;
+        }
+        
+        .summary {
+            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border-left: 5px solid #66BB6A;
+        }
+        
+        .summary h3 {
+            color: #388E3C;
+            margin-bottom: 15px;
+        }
+        
+        .summary p {
+            color: #558B2F;
+            margin: 8px 0;
+            font-size: 15px;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        th, td {
+            border: 1px solid #A5D6A7;
+            padding: 14px;
+            text-align: left;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #A5D6A7 0%, #C8E6C9 100%);
+            font-weight: 600;
+            color: #1B5E20;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #F9FFF9;
+        }
+        
+        tr:hover {
+            background-color: #E8F5E9;
+            transition: background-color 0.2s ease;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .error {
+            color: #E53935;
+            margin-top: 15px;
+            padding: 12px;
+            background: #FFEBEE;
+            border-radius: 8px;
+            border-left: 4px solid #E53935;
+        }
+        
+        .success {
+            color: #43A047;
+            margin-top: 15px;
+            padding: 12px;
+            background: #E8F5E9;
+            border-radius: 8px;
+            border-left: 4px solid #43A047;
+        }
+        
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #43A047 0%, #66BB6A 100%);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        #tableContainer {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Classificação Geral PAE</h1>
+        
+        <div class="upload-section" id="dropZone">
+            <h3>Carregar arquivo CSV (Padrão BR)</h3>
+            <input type="file" id="csvFile" class="file-input" accept=".csv" />
+            <div class="drag-text">ou arraste e solte o arquivo aqui</div>
+            <button onclick="processFile()" class="btn">Processar Arquivo</button>
+            <div id="fileStatus"></div>
+        </div>
+        
+        <div id="resultsSection" class="results-section hidden">
+            <div id="summary" class="summary"></div>
+            
+            <div class="button-group">
+                <button onclick="copyToWord()" class="btn btn-secondary">📄 Copiar para Word</button>
+                <button onclick="copyToExcel()" class="btn btn-tertiary">📊 Copiar para Excel</button>
+                <button onclick="downloadCsv()" class="btn btn-info">💾 Download CSV</button>
+                <button onclick="showTable()" class="btn">👁️ Mostrar/Ocultar Tabela</button>
+            </div>
+            
+            <div id="tableContainer" class="hidden">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Classificação</th>
+                            <th>Nome</th>
+                            <th>Programa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        © 2025 Rodrigo Pereira
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        let processedData = [];
+        
+        // Configurar drag and drop
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('csvFile');
+        
+        // Prevenir comportamento padrão
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        // Highlight ao arrastar
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight(e) {
+            dropZone.classList.add('drag-over');
+        }
+        
+        function unhighlight(e) {
+            dropZone.classList.remove('drag-over');
+        }
+        
+        // Handle drop
+        dropZone.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                fileInput.files = files;
+                processFile();
+            }
+        }
+        
+        function processFile() {
+            const fileInput = document.getElementById('csvFile');
+            const statusDiv = document.getElementById('fileStatus');
+            
+            if (!fileInput.files.length) {
+                statusDiv.innerHTML = '<div class="error">Por favor, selecione um arquivo CSV.</div>';
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            statusDiv.innerHTML = '<div>Processando arquivo...</div>';
+            
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                delimiter: ';',
+                encoding: 'UTF-8',
+                complete: function(results) {
+                    try {
+                        processData(results.data, results.meta.fields);
+                        statusDiv.innerHTML = '<div class="success">Arquivo processado com sucesso!</div>';
+                    } catch (error) {
+                        statusDiv.innerHTML = '<div class="error">Erro ao processar arquivo: ' + error.message + '</div>';
+                    }
+                },
+                error: function(error) {
+                    statusDiv.innerHTML = '<div class="error">Erro ao ler arquivo: ' + error.message + '</div>';
+                }
+            });
+        }
+        
+        function processData(data, columns) {
+            processedData = [];
+            let rank = 1;
+            
+            for (let i = 0; i < data.length; i++) {
+                for (let j = 0; j < columns.length; j++) {
+                    const programa = columns[j];
+                    const nome = data[i][programa];
+                    
+                    if (nome && nome.trim() !== '') {
+                        processedData.push({
+                            classificacao: rank,
+                            nome: nome.trim(),
+                            programa: programa
+                        });
+                        rank++;
+                    }
+                }
+            }
+            
+            displayResults();
+        }
+        
+        function displayResults() {
+            const resultsSection = document.getElementById('resultsSection');
+            const summary = document.getElementById('summary');
+            
+            summary.innerHTML = `
+                <h3>Resumo dos Resultados</h3>
+                <p><strong>Total de candidatos classificados:</strong> ${processedData.length}</p>
+                <p><strong>Programas encontrados:</strong> ${[...new Set(processedData.map(item => item.programa))].length}</p>
+            `;
+            
+            resultsSection.classList.remove('hidden');
+            fillTable();
+        }
+        
+        function fillTable() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            
+            processedData.forEach(item => {
+                const row = tableBody.insertRow();
+                row.insertCell(0).textContent = item.classificacao;
+                row.insertCell(1).textContent = item.nome;
+                row.insertCell(2).textContent = item.programa;
+            });
+        }
+        
+        function showTable() {
+            const tableContainer = document.getElementById('tableContainer');
+            tableContainer.classList.toggle('hidden');
+        }
+        
+        function copyToExcel() {
+            if (processedData.length === 0) {
+                alert('Nenhum dado para copiar. Processe um arquivo primeiro.');
+                return;
+            }
+            
+            let text = '';
+            const columns = ['classificacao', 'nome', 'programa'];
+            
+            // Headers
+            text += 'Classificação\tNome\tPrograma\n';
+            
+            // Data
+            processedData.forEach(row => {
+                text += `${row.classificacao}\t${row.nome}\t${row.programa}\n`;
+            });
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(text).then(() => {
+                showSuccess('Dados copiados! Cole no Excel usando Ctrl+V');
+            }).catch(() => {
+                showError('Erro ao copiar dados.');
+            });
+        }
+        
+        async function copyToWord() {
+            if (processedData.length === 0) {
+                alert('Nenhum dado para copiar. Processe um arquivo primeiro.');
+                return;
+            }
+            
+            const table = document.getElementById('resultsTable');
+            const html = inlineTableHTML(table);
+            
+            try {
+                await copyHTMLToClipboard(html);
+                showSuccess('Tabela copiada! Cole no Word usando Ctrl+V');
+            } catch (error) {
+                showError('Erro ao copiar tabela.');
+            }
+        }
+        
+        async function copyHTMLToClipboard(html) {
+            if (navigator.clipboard && window.ClipboardItem) {
+                const item = new ClipboardItem({
+                    "text/html": new Blob([html], { type: "text/html" }),
+                    "text/plain": new Blob([html.replace(/<[^>]+>/g, '')], { type: "text/plain" })
+                });
+                await navigator.clipboard.write([item]);
+            } else {
+                const div = document.createElement('div');
+                div.contentEditable = 'true';
+                div.style.position = 'fixed';
+                div.style.left = '-9999px';
+                div.innerHTML = html;
+                document.body.appendChild(div);
+                const range = document.createRange();
+                range.selectNodeContents(div);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+                document.execCommand('copy');
+                sel.removeAllRanges();
+                document.body.removeChild(div);
+            }
+        }
+        
+        function inlineTableHTML(tableEl) {
+            const t = tableEl.cloneNode(true);
+            t.removeAttribute('class');
+            t.style.borderCollapse = 'collapse';
+            t.style.width = '100%';
+            t.querySelectorAll('th, td').forEach(cell => {
+                cell.style.border = '1px solid #9e9e9e';
+                cell.style.padding = '8px 12px';
+            });
+            t.querySelectorAll('th').forEach(th => {
+                th.style.background = '#A5D6A7';
+                th.style.fontWeight = '600';
+                th.style.color = '#1B5E20';
+            });
+            return t.outerHTML;
+        }
+        
+        function showSuccess(message) {
+            const statusDiv = document.getElementById('fileStatus');
+            statusDiv.innerHTML = `<div class="success">${message}</div>`;
+            setTimeout(() => {
+                statusDiv.innerHTML = '';
+            }, 3000);
+        }
+        
+        function showError(message) {
+            const statusDiv = document.getElementById('fileStatus');
+            statusDiv.innerHTML = `<div class="error">${message}</div>`;
+        }
+        
+        function downloadCsv() {
+            if (processedData.length === 0) {
+                alert('Nenhum dado para exportar. Processe um arquivo primeiro.');
+                return;
+            }
+            
+            let content = 'Classificacao;Nome;Programa\n';
+            
+            processedData.forEach(item => {
+                const nome = item.nome.replace(/"/g, '""');
+                const programa = item.programa.replace(/"/g, '""');
+                
+                const nomeFormatted = /[;,"\n\r]/.test(item.nome) ? `"${nome}"` : nome;
+                const programaFormatted = /[;,"\n\r]/.test(item.programa) ? `"${programa}"` : programa;
+                
+                content += `${item.classificacao};${nomeFormatted};${programaFormatted}\n`;
+            });
+            
+            const bom = '\uFEFF';
+            const blob = new Blob([bom + content], { type: 'text/csv;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'classificacao_geral.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+        
+        window.addEventListener('load', function() {
+            if (window.fs && window.fs.readFile) {
+                loadDefaultFile();
+            }
+        });
+        
+        async function loadDefaultFile() {
+            try {
+                const fileContent = await window.fs.readFile('classificacao2025.csv', { encoding: 'utf8' });
+                
+                Papa.parse(fileContent, {
+                    header: true,
+                    skipEmptyLines: true,
+                    delimiter: ';',
+                    complete: function(results) {
+                        processData(results.data, results.meta.fields);
+                        document.getElementById('fileStatus').innerHTML = '<div class="success">Arquivo padrão carregado automaticamente!</div>';
+                    }
+                });
+            } catch (error) {
+                console.log('Arquivo padrão não encontrado, aguardando upload manual.');
+            }
+        }
+    </script>
+</body>
+</html>
