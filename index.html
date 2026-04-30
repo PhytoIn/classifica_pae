@@ -1,598 +1,1000 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classificação Geral</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
-            min-height: 100vh;
-            padding: 20px;
-            padding-bottom: 80px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-        }
-        
-        h1 {
-            color: #2E7D32;
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 2.2em;
-            font-weight: 600;
-        }
-        
-        .upload-section {
-            margin-bottom: 40px;
-            padding: 40px;
-            border: 3px dashed #81C784;
-            border-radius: 20px;
-            text-align: center;
-            background: linear-gradient(135deg, #F1F8E9 0%, #F9FBE7 100%);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .upload-section:hover {
-            border-color: #66BB6A;
-            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
-            transform: translateY(-2px);
-        }
-        
-        .upload-section.drag-over {
-            border-color: #43A047;
-            background: linear-gradient(135deg, #C8E6C9 0%, #E8F5E9 100%);
-            transform: scale(1.02);
-        }
-        
-        h3 {
-            color: #43A047;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-        
-        .file-input {
-            margin: 20px 0;
-            padding: 12px 20px;
-            border: 2px solid #A5D6A7;
-            border-radius: 12px;
-            background: white;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .file-input:hover {
-            border-color: #66BB6A;
-        }
-        
-        .drag-text {
-            color: #66BB6A;
-            font-size: 16px;
-            margin: 15px 0;
-            font-weight: 500;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #43A047 0%, #66BB6A 100%);
-            color: white;
-            padding: 12px 28px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            margin: 8px;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.4);
-            background: linear-gradient(135deg, #388E3C 0%, #43A047 100%);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, #64B5F6 0%, #42A5F5 100%);
-            box-shadow: 0 4px 12px rgba(100, 181, 246, 0.3);
-        }
-        
-        .btn-secondary:hover {
-            background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
-            box-shadow: 0 6px 20px rgba(100, 181, 246, 0.4);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classificação Geral PAE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root {
+    --green-900: #1f4d36;
+    --green-800: #1f5538;
+    --green-700: #246b46;
+    --green-600: #2c7a52;
+    --green-50:  #e8f1ec;
+    --bg:        #f3eee5;
+    --card:     #ffffff;
+    --text:     #1d1d1b;
+    --muted:    #6b6b67;
+    --border:   #d9d4c8;
+    --danger:   #b04a3a;
+    --warn-bg:  #fdf6e3;
+    --warn-bd:  #e6d8a8;
+  }
 
-        .btn-tertiary {
-            background: linear-gradient(135deg, #81C784 0%, #66BB6A 100%);
-            box-shadow: 0 4px 12px rgba(129, 199, 132, 0.3);
-        }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 
-        .btn-tertiary:hover {
-            background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
-            box-shadow: 0 6px 20px rgba(129, 199, 132, 0.4);
-        }
+  /* ===== HEADER ===== */
+  header.hero {
+    background: var(--green-800);
+    color: #fff;
+    padding: 64px 24px 72px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header.hero::before,
+  header.hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  header.hero::before { width: 360px; height: 360px; top: -120px; left: -120px; }
+  header.hero::after  { width: 360px; height: 360px; top: -150px; right: -120px; }
 
-            .btn-info {
-                background: linear-gradient(135deg, #FFB74D 0%, #FFA726 100%);
-            box-shadow: 0 4px 12px rgba(255, 183, 77, 0.3);
-        }
-        
-        .btn-info:hover {
-            background: linear-gradient(135deg, #FFA726 0%, #FF9800 100%);
-            box-shadow: 0 6px 20px rgba(255, 183, 77, 0.4);
-        }
-        
-        .results-section {
-            margin-top: 40px;
-        }
-        
-        .summary {
-            background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            border-left: 5px solid #66BB6A;
-        }
-        
-        .summary h3 {
-            color: #388E3C;
-            margin-bottom: 15px;
-        }
-        
-        .summary p {
-            color: #558B2F;
-            margin: 8px 0;
-            font-size: 15px;
-        }
-        
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 25px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        
-        th, td {
-            border: 1px solid #A5D6A7;
-            padding: 14px;
-            text-align: left;
-        }
-        
-        th {
-            background: linear-gradient(135deg, #A5D6A7 0%, #C8E6C9 100%);
-            font-weight: 600;
-            color: #1B5E20;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #F9FFF9;
-        }
-        
-        tr:hover {
-            background-color: #E8F5E9;
-            transition: background-color 0.2s ease;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .error {
-            color: #E53935;
-            margin-top: 15px;
-            padding: 12px;
-            background: #FFEBEE;
-            border-radius: 8px;
-            border-left: 4px solid #E53935;
-        }
-        
-        .success {
-            color: #43A047;
-            margin-top: 15px;
-            padding: 12px;
-            background: #E8F5E9;
-            border-radius: 8px;
-            border-left: 4px solid #43A047;
-        }
-        
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, #43A047 0%, #66BB6A 100%);
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 14px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-        
-        #tableContainer {
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 1.6em;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                font-size: 14px;
-                width: 100%;
-                margin: 5px 0;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-        }
-    </style>
+  header.hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+    position: relative;
+  }
+  header.hero p {
+    margin: 0;
+    color: rgba(255,255,255,0.78);
+    font-size: 1.05rem;
+    position: relative;
+  }
+
+  /* ===== MAIN ===== */
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    color: var(--green-900);
+    margin: 24px 0 14px;
+    letter-spacing: -0.005em;
+  }
+
+  /* ===== UPLOAD CARDS ===== */
+  .upload-card {
+    background: var(--card);
+    border: 2px dashed #cfc8b8;
+    border-radius: 14px;
+    padding: 56px 24px;
+    text-align: center;
+    transition: border-color .2s, background .2s;
+  }
+  .upload-card.dragover {
+    border-color: var(--green-700);
+    background: #fbf8f1;
+  }
+  .upload-card.done {
+    border-style: solid;
+    border-color: var(--green-700);
+    background: #fbfaf5;
+  }
+
+  .upload-icon {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--green-50);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .upload-icon svg { width: 26px; height: 26px; stroke: var(--green-800); }
+
+  .upload-card h3 {
+    margin: 0 0 6px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+  .upload-card p.hint {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: background .15s, transform .05s, opacity .15s;
+  }
+  .btn-primary {
+    background: var(--green-800);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--green-700); }
+  .btn-primary:active { transform: translateY(1px); }
+  .btn-primary:disabled {
+    background: #b8bdb6;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--green-800);
+    border: 1.5px solid var(--green-800);
+  }
+  .btn-secondary:hover { background: var(--green-50); }
+  .btn-secondary:active { transform: translateY(1px); }
+  .dl-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .dl-hint {
+    margin: 14px 0 0 !important;
+    font-size: 0.82rem !important;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--green-800);
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    border: 1px solid var(--green-800);
+  }
+  .btn-ghost:hover { background: rgba(31,85,56,0.08); }
+
+  input[type="file"] { display: none; }
+
+  /* ===== FILE LISTS ===== */
+  .file-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green-50);
+    color: var(--green-900);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 4px;
+  }
+  .file-pill svg { width: 14px; height: 14px; }
+  .file-pill .remove {
+    cursor: pointer;
+    opacity: 0.55;
+    display: inline-flex;
+  }
+  .file-pill .remove:hover { opacity: 1; color: var(--danger); }
+
+  .files-loaded {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 14px;
+  }
+
+  /* ===== TIE BREAKER ===== */
+  .tiebreak-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin-top: 20px;
+  }
+  .tiebreak-card h3 {
+    margin: 0 0 6px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--green-900);
+    font-size: 1.2rem;
+  }
+  .tiebreak-card .desc {
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+
+  .tie-group {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-bd);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .tie-group-header {
+    font-size: 0.85rem;
+    color: #7a6a2a;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .tie-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    cursor: grab;
+    user-select: none;
+    transition: box-shadow .15s, transform .15s;
+  }
+  .tie-item:last-child { margin-bottom: 0; }
+  .tie-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .tie-item.dragging {
+    opacity: 0.4;
+    cursor: grabbing;
+  }
+  .tie-item.drag-over {
+    border-color: var(--green-700);
+    box-shadow: 0 0 0 2px rgba(36,107,70,0.15);
+  }
+  .tie-item .handle {
+    color: var(--muted);
+    display: inline-flex;
+  }
+  .tie-item .handle svg { width: 16px; height: 16px; }
+  .tie-item .order-num {
+    background: var(--green-800);
+    color: #fff;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+  .tie-item .prog-name {
+    flex: 1;
+    font-weight: 500;
+  }
+  .tie-item .prog-count {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  /* ===== DOWNLOAD AREA ===== */
+  .download-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  .download-card h3 {
+    margin: 0 0 6px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--green-900);
+    font-size: 1.2rem;
+  }
+  .download-card p {
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+
+  /* ===== ERROR ===== */
+  .error-banner {
+    background: #f9e6e1;
+    border: 1px solid #e2bdb1;
+    color: #7a2d20;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 0.92rem;
+  }
+
+  .hidden { display: none !important; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 24px 16px 32px;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { animation: fadeIn .35s ease-out; }
+
+  @media (max-width: 600px) {
+    header.hero { padding: 48px 20px 56px; }
+    .upload-card { padding: 40px 18px; }
+    main { padding: 24px 16px 40px; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Classificação Geral PAE</h1>
-        
-        <div class="upload-section" id="dropZone">
-            <h3>Carregar arquivo CSV (Padrão BR)</h3>
-            <input type="file" id="csvFile" class="file-input" accept=".csv" />
-            <div class="drag-text">ou arraste e solte o arquivo aqui</div>
-            <button onclick="processFile()" class="btn">Processar Arquivo</button>
-            <div id="fileStatus"></div>
-        </div>
-        
-        <div id="resultsSection" class="results-section hidden">
-            <div id="summary" class="summary"></div>
-            
-            <div class="button-group">
-                <button onclick="copyToWord()" class="btn btn-secondary">📄 Copiar para Word</button>
-                <button onclick="copyToExcel()" class="btn btn-tertiary">📊 Copiar para Excel</button>
-                <button onclick="downloadCsv()" class="btn btn-info">💾 Download CSV</button>
-                <button onclick="showTable()" class="btn">👁️ Mostrar/Ocultar Tabela</button>
-            </div>
-            
-            <div id="tableContainer" class="hidden">
-                <table id="resultsTable">
-                    <thead>
-                        <tr>
-                            <th>Classificação</th>
-                            <th>Nome</th>
-                            <th>Programa</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    
-    <footer>
-        © 2025 Rodrigo Pereira
-    </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <script>
-        let processedData = [];
-        
-        // Configurar drag and drop
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('csvFile');
-        
-        // Prevenir comportamento padrão
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, preventDefaults, false);
+<header class="hero">
+  <h1>Classificação Geral PAE</h1>
+  <p>Agrupa as classificações dos Programas e gera a classificação geral</p>
+</header>
+
+<main>
+
+  <!-- STEP 1: OUTRAS UNIDADES -->
+  <h2 class="section-title">1. Candidatos de Outras Unidades</h2>
+  <div id="dropOutras" class="upload-card">
+    <div class="upload-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+    </div>
+    <h3>Arraste o arquivo Excel aqui</h3>
+    <p class="hint">Arquivo .xlsx contendo os candidatos de outras unidades</p>
+    <button class="btn btn-primary" onclick="document.getElementById('inputOutras').click()">Escolher arquivo</button>
+    <input type="file" id="inputOutras" accept=".xlsx,.xls">
+    <div id="outrasList" class="files-loaded"></div>
+  </div>
+
+  <!-- STEP 2: PROGRAMAS FFCLRP -->
+  <div id="step2" class="hidden">
+    <h2 class="section-title">2. Programas da FFCLRP</h2>
+    <div id="dropFFCLRP" class="upload-card">
+      <div class="upload-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </div>
+      <h3>Arraste os arquivos Excel aqui</h3>
+      <p class="hint">Selecione múltiplos arquivos .xlsx — um por Programa da FFCLRP</p>
+      <button class="btn btn-primary" onclick="document.getElementById('inputFFCLRP').click()">Escolher arquivos</button>
+      <input type="file" id="inputFFCLRP" accept=".xlsx,.xls" multiple>
+      <div id="ffclrpList" class="files-loaded"></div>
+    </div>
+  </div>
+
+  <div id="errorBox" class="hidden"></div>
+
+  <!-- TIEBREAKER -->
+  <div id="tiebreakerArea" class="hidden"></div>
+
+  <!-- DOWNLOAD -->
+  <div id="downloadArea" class="hidden"></div>
+
+  <!-- RESET -->
+  <div id="resetArea" class="hidden">
+    <div style="text-align:center; margin-top: 28px;">
+      <button class="btn btn-ghost" id="resetBtn">Limpar dados</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>© 2026 Rodrigo Pereira — FFCLRP-USP</footer>
+
+<script>
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  outrasFile: null,        // { fileName, programa, nomes[] }
+  ffclrpFiles: [],         // [{ fileName, programa, nomes[] }]
+  tieResolution: null,     // map: programa -> manual order (when resolved)
+  finalOrder: null         // resolved program ordering
+};
+
+/* ============================================================
+   FILE READING
+   ============================================================ */
+function readExcelFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target.result);
+        const wb = XLSX.read(data, { type: 'array' });
+        const sheetName = wb.SheetNames[0];
+        const ws = wb.Sheets[sheetName];
+        // Read with header row, preserve original order
+        const rows = XLSX.utils.sheet_to_json(ws, { defval: '', raw: false });
+        if (!rows.length) {
+          reject(new Error(`Arquivo "${file.name}" está vazio.`));
+          return;
+        }
+        // Validate required columns
+        const sample = rows[0];
+        const keys = Object.keys(sample);
+        const hasNome = keys.some(k => k.trim().toLowerCase() === 'nome');
+        const hasPrograma = keys.some(k => k.trim().toLowerCase() === 'programa');
+        if (!hasNome || !hasPrograma) {
+          reject(new Error(`Arquivo "${file.name}" não contém as colunas "Nome" e/ou "Programa".`));
+          return;
+        }
+        const nomeKey = keys.find(k => k.trim().toLowerCase() === 'nome');
+        const progKey = keys.find(k => k.trim().toLowerCase() === 'programa');
+
+        // Preserve original row order. Keep the {nome, programa} pair for each
+        // candidate so the per-row Programa value is used in the final output
+        // (some files — notably "Outras Unidades" — mix multiple Programas).
+        const candidatos = [];
+        for (const r of rows) {
+          const nome = String(r[nomeKey] ?? '').trim();
+          if (!nome) continue;
+          const programaLinha = String(r[progKey] ?? '').trim();
+          candidatos.push({ nome, programa: programaLinha });
+        }
+
+        if (!candidatos.length) {
+          reject(new Error(`Arquivo "${file.name}" não contém candidatos.`));
+          return;
+        }
+
+        // "Programa do arquivo" — used for the consolidated matrix header and
+        // for tie-breaking. Picked from the first non-empty value in the column.
+        let programaArquivo = '';
+        for (const c of candidatos) {
+          if (c.programa) { programaArquivo = c.programa; break; }
+        }
+        if (!programaArquivo) {
+          reject(new Error(`Arquivo "${file.name}" não tem nome de Programa preenchido.`));
+          return;
+        }
+
+        // Backfill empty per-row Programa values with the file's Programa,
+        // so every candidate has a Programa label even if some rows omit it.
+        candidatos.forEach(c => {
+          if (!c.programa) c.programa = programaArquivo;
         });
-        
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
+
+        // Keep `nomes` (in original order) for the consolidated matrix view.
+        const nomes = candidatos.map(c => c.nome);
+
+        resolve({ fileName: file.name, programa: programaArquivo, nomes, candidatos });
+      } catch (err) {
+        reject(new Error(`Erro ao ler "${file.name}": ${err.message}`));
+      }
+    };
+    reader.onerror = () => reject(new Error(`Falha ao ler "${file.name}".`));
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+/* ============================================================
+   ERROR HANDLING
+   ============================================================ */
+function showError(msg) {
+  const box = document.getElementById('errorBox');
+  box.className = 'error-banner';
+  box.textContent = msg;
+}
+function clearError() {
+  const box = document.getElementById('errorBox');
+  box.className = 'hidden';
+  box.textContent = '';
+}
+
+/* ============================================================
+   DRAG & DROP HANDLERS
+   ============================================================ */
+function setupDropZone(zoneId, inputId, multi) {
+  const zone = document.getElementById(zoneId);
+  const input = document.getElementById(inputId);
+
+  ['dragenter', 'dragover'].forEach(ev => zone.addEventListener(ev, e => {
+    e.preventDefault(); e.stopPropagation();
+    zone.classList.add('dragover');
+  }));
+  ['dragleave', 'drop'].forEach(ev => zone.addEventListener(ev, e => {
+    e.preventDefault(); e.stopPropagation();
+    zone.classList.remove('dragover');
+  }));
+  zone.addEventListener('drop', e => {
+    const files = Array.from(e.dataTransfer.files).filter(f => /\.xlsx?$/i.test(f.name));
+    if (files.length === 0) {
+      showError('Por favor, envie apenas arquivos .xlsx ou .xls.');
+      return;
+    }
+    handleFiles(files, multi, zoneId);
+  });
+
+  input.addEventListener('change', e => {
+    const files = Array.from(e.target.files);
+    handleFiles(files, multi, zoneId);
+    input.value = '';
+  });
+}
+
+async function handleFiles(files, multi, zoneId) {
+  clearError();
+  if (zoneId === 'dropOutras') {
+    if (files.length > 1) {
+      showError('Apenas um arquivo é permitido para "Outras Unidades".');
+      return;
+    }
+    try {
+      const data = await readExcelFile(files[0]);
+      state.outrasFile = data;
+      renderOutrasList();
+      document.getElementById('step2').classList.remove('hidden');
+      document.getElementById('step2').classList.add('reveal');
+      document.getElementById('dropOutras').classList.add('done');
+    } catch (err) {
+      showError(err.message);
+    }
+  } else {
+    // FFCLRP — multiple
+    for (const f of files) {
+      try {
+        const data = await readExcelFile(f);
+        // Deduplicate by fileName
+        if (!state.ffclrpFiles.find(x => x.fileName === data.fileName)) {
+          state.ffclrpFiles.push(data);
         }
-        
-        // Highlight ao arrastar
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, highlight, false);
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+    renderFFCLRPList();
+    recompute();
+  }
+}
+
+/* ============================================================
+   FILE PILLS
+   ============================================================ */
+function pillSVG() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+}
+function removeSVG() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+}
+
+function renderOutrasList() {
+  const div = document.getElementById('outrasList');
+  div.innerHTML = '';
+  if (!state.outrasFile) return;
+  const f = state.outrasFile;
+  const pill = document.createElement('span');
+  pill.className = 'file-pill';
+  pill.innerHTML = `${pillSVG()}<span><strong>${escapeHtml(f.programa)}</strong> — ${f.nomes.length} candidato${f.nomes.length !== 1 ? 's' : ''}</span><span class="remove" title="Remover">${removeSVG()}</span>`;
+  pill.querySelector('.remove').onclick = () => {
+    state.outrasFile = null;
+    renderOutrasList();
+    document.getElementById('dropOutras').classList.remove('done');
+  };
+  div.appendChild(pill);
+}
+
+function renderFFCLRPList() {
+  const div = document.getElementById('ffclrpList');
+  div.innerHTML = '';
+  state.ffclrpFiles.forEach(f => {
+    const pill = document.createElement('span');
+    pill.className = 'file-pill';
+    pill.innerHTML = `${pillSVG()}<span><strong>${escapeHtml(f.programa)}</strong> — ${f.nomes.length} candidato${f.nomes.length !== 1 ? 's' : ''}</span><span class="remove" title="Remover">${removeSVG()}</span>`;
+    pill.querySelector('.remove').onclick = () => {
+      state.ffclrpFiles = state.ffclrpFiles.filter(x => x !== f);
+      renderFFCLRPList();
+      recompute();
+    };
+    div.appendChild(pill);
+  });
+  if (state.ffclrpFiles.length > 0) {
+    document.getElementById('dropFFCLRP').classList.add('done');
+  } else {
+    document.getElementById('dropFFCLRP').classList.remove('done');
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
+}
+
+/* ============================================================
+   ORDERING & TIE DETECTION
+   ============================================================ */
+function computeOrdering() {
+  // Sort by count DESC. Ties → require user resolution.
+  const arr = state.ffclrpFiles.map((f, idx) => ({
+    programa: f.programa,
+    count: f.nomes.length,
+    originalIdx: idx
+  }));
+
+  // Group by count
+  const groups = {};
+  arr.forEach(a => {
+    if (!groups[a.count]) groups[a.count] = [];
+    groups[a.count].push(a);
+  });
+
+  const counts = Object.keys(groups).map(Number).sort((a, b) => b - a);
+  const tieGroups = counts.filter(c => groups[c].length > 1);
+
+  return { groups, counts, tieGroups, arr };
+}
+
+/* ============================================================
+   RECOMPUTE / RENDER
+   ============================================================ */
+function recompute() {
+  // Hide everything below if no FFCLRP files
+  if (state.ffclrpFiles.length === 0) {
+    document.getElementById('tiebreakerArea').classList.add('hidden');
+    document.getElementById('downloadArea').classList.add('hidden');
+    document.getElementById('resetArea').classList.add('hidden');
+    state.tieResolution = null;
+    state.finalOrder = null;
+    return;
+  }
+
+  const { groups, counts, tieGroups } = computeOrdering();
+
+  // Reset tie resolution if program list changed
+  state.tieResolution = state.tieResolution || {};
+
+  if (tieGroups.length > 0) {
+    renderTiebreaker(groups, counts, tieGroups);
+  } else {
+    document.getElementById('tiebreakerArea').classList.add('hidden');
+  }
+
+  // Compute final order: for each count group, use tieResolution if multi
+  const order = [];
+  for (const c of counts) {
+    const grp = groups[c];
+    if (grp.length === 1) {
+      order.push(grp[0].programa);
+    } else {
+      // Use resolved order
+      const resolved = state.tieResolution[c];
+      if (resolved && resolved.length === grp.length) {
+        resolved.forEach(p => order.push(p));
+      } else {
+        // Not yet resolved — abort final
+        state.finalOrder = null;
+        document.getElementById('downloadArea').classList.add('hidden');
+        document.getElementById('resetArea').classList.add('hidden');
+        return;
+      }
+    }
+  }
+
+  state.finalOrder = order;
+  renderDownload();
+  document.getElementById('resetArea').classList.remove('hidden');
+}
+
+/* ============================================================
+   TIEBREAKER UI (drag-and-drop reordering)
+   ============================================================ */
+function renderTiebreaker(groups, counts, tieGroups) {
+  const area = document.getElementById('tiebreakerArea');
+  area.classList.remove('hidden');
+  area.classList.add('reveal');
+
+  let html = `
+    <div class="tiebreak-card">
+      <h3>Empates detectados</h3>
+      <p class="desc">Arraste os Programas para definir a ordem de prioridade em cada grupo de empate (do mais prioritário para o menos prioritário).</p>
+  `;
+
+  tieGroups.forEach(c => {
+    const grp = groups[c];
+    // Initialize tie resolution if not present
+    if (!state.tieResolution[c] || state.tieResolution[c].length !== grp.length) {
+      state.tieResolution[c] = grp.map(g => g.programa);
+    }
+    // Filter out programs that no longer exist
+    state.tieResolution[c] = state.tieResolution[c].filter(p => grp.find(g => g.programa === p));
+    grp.forEach(g => {
+      if (!state.tieResolution[c].includes(g.programa)) {
+        state.tieResolution[c].push(g.programa);
+      }
+    });
+
+    html += `<div class="tie-group">
+      <div class="tie-group-header">${grp.length} programas com ${c} candidato${c !== 1 ? 's' : ''}</div>
+      <div class="tie-list" data-count="${c}">`;
+    state.tieResolution[c].forEach((prog, i) => {
+      html += `<div class="tie-item" draggable="true" data-prog="${escapeHtml(prog)}" data-count="${c}">
+        <span class="handle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+        </span>
+        <span class="order-num">${i + 1}</span>
+        <span class="prog-name">${escapeHtml(prog)}</span>
+        <span class="prog-count">${c} inscrito${c !== 1 ? 's' : ''}</span>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  html += `</div>`;
+  area.innerHTML = html;
+
+  // Attach drag handlers
+  area.querySelectorAll('.tie-list').forEach(list => {
+    setupDragSort(list);
+  });
+}
+
+function setupDragSort(list) {
+  let dragEl = null;
+
+  list.addEventListener('dragstart', (e) => {
+    if (!e.target.classList || !e.target.classList.contains('tie-item')) return;
+    dragEl = e.target;
+    dragEl.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+
+  list.addEventListener('dragend', () => {
+    if (dragEl) dragEl.classList.remove('dragging');
+    list.querySelectorAll('.tie-item').forEach(i => i.classList.remove('drag-over'));
+    dragEl = null;
+    // Persist new order
+    const count = Number(list.dataset.count);
+    const newOrder = Array.from(list.querySelectorAll('.tie-item')).map(el => el.dataset.prog);
+    state.tieResolution[count] = newOrder;
+    // Update order numbers
+    list.querySelectorAll('.tie-item').forEach((el, i) => {
+      el.querySelector('.order-num').textContent = i + 1;
+    });
+    recompute();
+  });
+
+  list.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    const after = getDragAfterElement(list, e.clientY);
+    if (!dragEl) return;
+    if (after == null) {
+      list.appendChild(dragEl);
+    } else {
+      list.insertBefore(dragEl, after);
+    }
+  });
+}
+
+function getDragAfterElement(container, y) {
+  const els = [...container.querySelectorAll('.tie-item:not(.dragging)')];
+  return els.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset, element: child };
+    }
+    return closest;
+  }, { offset: -Infinity }).element;
+}
+
+/* ============================================================
+   DOWNLOAD
+   ============================================================ */
+function renderDownload() {
+  const { classificados, ffclrpCount, outrasCount } = buildClassificacaoGeral();
+  const area = document.getElementById('downloadArea');
+  area.classList.remove('hidden');
+  area.classList.add('reveal');
+
+  const outrasLine = state.outrasFile
+    ? `<p>Inclui também ${outrasCount} candidato${outrasCount !== 1 ? 's' : ''} de Outras Unidades, anexado${outrasCount !== 1 ? 's' : ''} ao final.</p>`
+    : '';
+
+  area.innerHTML = `
+    <div class="download-card">
+      <h3>Pronto para download</h3>
+      <p>Classificação geral com <strong>${classificados.length}</strong> candidato${classificados.length !== 1 ? 's' : ''} (${ffclrpCount} da FFCLRP${state.outrasFile ? ` + ${outrasCount} de Outras Unidades` : ''}).</p>
+      ${outrasLine}
+      <div class="dl-buttons">
+        <button class="btn btn-primary" id="dlBtn">Baixar Classificação Geral (.xlsx)</button>
+        <button class="btn btn-secondary" id="dlMatrixBtn">Baixar Planilha Consolidada (.xlsx)</button>
+      </div>
+      <p class="dl-hint">A planilha consolidada (matriz com Programas em colunas) é útil para verificação manual de inconsistências.</p>
+    </div>
+  `;
+  document.getElementById('dlBtn').onclick = downloadXLSX;
+  document.getElementById('dlMatrixBtn').onclick = downloadMatrixXLSX;
+}
+
+/**
+ * Builds the consolidated matrix (one column per FFCLRP Programa, ordered by
+ * size as defined by state.finalOrder), then sweeps it ROW-BY-ROW to assign
+ * sequential ranks. Within each row the columns are visited from left to right,
+ * which is the order resolved during the tiebreaker step. Empty cells are
+ * skipped. After all FFCLRP candidates are ranked, the candidates from "Outras
+ * Unidades" are appended at the end (preserving their original order from the
+ * source file).
+ */
+function buildClassificacaoGeral() {
+  const headers = state.finalOrder.slice();
+  // For each Programa (column), pull the candidatos array preserving order
+  const cols = headers.map(prog => {
+    const f = state.ffclrpFiles.find(x => x.programa === prog);
+    return f ? f.candidatos.slice() : [];
+  });
+  const maxRows = Math.max(...cols.map(c => c.length), 0);
+
+  const classificados = [];
+  let rank = 1;
+
+  // ROW-BY-ROW sweep: i = position within each Programa's queue
+  for (let i = 0; i < maxRows; i++) {
+    for (let j = 0; j < cols.length; j++) {
+      const cand = cols[j][i];
+      if (cand && cand.nome) {
+        classificados.push({
+          classificacao: rank,
+          nome: cand.nome,
+          programa: cand.programa  // per-row value from the source file
         });
-        
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, unhighlight, false);
+        rank++;
+      }
+    }
+  }
+
+  const ffclrpCount = classificados.length;
+
+  // Append candidates from Outras Unidades, preserving original file order and
+  // using each candidate's per-row Programa.
+  let outrasCount = 0;
+  if (state.outrasFile) {
+    state.outrasFile.candidatos.forEach(cand => {
+      if (cand.nome) {
+        classificados.push({
+          classificacao: rank,
+          nome: cand.nome,
+          programa: cand.programa
         });
-        
-        function highlight(e) {
-            dropZone.classList.add('drag-over');
-        }
-        
-        function unhighlight(e) {
-            dropZone.classList.remove('drag-over');
-        }
-        
-        // Handle drop
-        dropZone.addEventListener('drop', handleDrop, false);
-        
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            
-            if (files.length > 0) {
-                fileInput.files = files;
-                processFile();
-            }
-        }
-        
-        function processFile() {
-            const fileInput = document.getElementById('csvFile');
-            const statusDiv = document.getElementById('fileStatus');
-            
-            if (!fileInput.files.length) {
-                statusDiv.innerHTML = '<div class="error">Por favor, selecione um arquivo CSV.</div>';
-                return;
-            }
-            
-            const file = fileInput.files[0];
-            statusDiv.innerHTML = '<div>Processando arquivo...</div>';
-            
-            Papa.parse(file, {
-                header: true,
-                skipEmptyLines: true,
-                delimiter: ';',
-                encoding: 'UTF-8',
-                complete: function(results) {
-                    try {
-                        processData(results.data, results.meta.fields);
-                        statusDiv.innerHTML = '<div class="success">Arquivo processado com sucesso!</div>';
-                    } catch (error) {
-                        statusDiv.innerHTML = '<div class="error">Erro ao processar arquivo: ' + error.message + '</div>';
-                    }
-                },
-                error: function(error) {
-                    statusDiv.innerHTML = '<div class="error">Erro ao ler arquivo: ' + error.message + '</div>';
-                }
-            });
-        }
-        
-        function processData(data, columns) {
-            processedData = [];
-            let rank = 1;
-            
-            for (let i = 0; i < data.length; i++) {
-                for (let j = 0; j < columns.length; j++) {
-                    const programa = columns[j];
-                    const nome = data[i][programa];
-                    
-                    if (nome && nome.trim() !== '') {
-                        processedData.push({
-                            classificacao: rank,
-                            nome: nome.trim(),
-                            programa: programa
-                        });
-                        rank++;
-                    }
-                }
-            }
-            
-            displayResults();
-        }
-        
-        function displayResults() {
-            const resultsSection = document.getElementById('resultsSection');
-            const summary = document.getElementById('summary');
-            
-            summary.innerHTML = `
-                <h3>Resumo dos Resultados</h3>
-                <p><strong>Total de candidatos classificados:</strong> ${processedData.length}</p>
-                <p><strong>Programas encontrados:</strong> ${[...new Set(processedData.map(item => item.programa))].length}</p>
-            `;
-            
-            resultsSection.classList.remove('hidden');
-            fillTable();
-        }
-        
-        function fillTable() {
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = '';
-            
-            processedData.forEach(item => {
-                const row = tableBody.insertRow();
-                row.insertCell(0).textContent = item.classificacao;
-                row.insertCell(1).textContent = item.nome;
-                row.insertCell(2).textContent = item.programa;
-            });
-        }
-        
-        function showTable() {
-            const tableContainer = document.getElementById('tableContainer');
-            tableContainer.classList.toggle('hidden');
-        }
-        
-        function copyToExcel() {
-            if (processedData.length === 0) {
-                alert('Nenhum dado para copiar. Processe um arquivo primeiro.');
-                return;
-            }
-            
-            let text = '';
-            const columns = ['classificacao', 'nome', 'programa'];
-            
-            // Headers
-            text += 'Classificação\tNome\tPrograma\n';
-            
-            // Data
-            processedData.forEach(row => {
-                text += `${row.classificacao}\t${row.nome}\t${row.programa}\n`;
-            });
-            
-            // Copy to clipboard
-            navigator.clipboard.writeText(text).then(() => {
-                showSuccess('Dados copiados! Cole no Excel usando Ctrl+V');
-            }).catch(() => {
-                showError('Erro ao copiar dados.');
-            });
-        }
-        
-        async function copyToWord() {
-            if (processedData.length === 0) {
-                alert('Nenhum dado para copiar. Processe um arquivo primeiro.');
-                return;
-            }
-            
-            const table = document.getElementById('resultsTable');
-            const html = inlineTableHTML(table);
-            
-            try {
-                await copyHTMLToClipboard(html);
-                showSuccess('Tabela copiada! Cole no Word usando Ctrl+V');
-            } catch (error) {
-                showError('Erro ao copiar tabela.');
-            }
-        }
-        
-        async function copyHTMLToClipboard(html) {
-            if (navigator.clipboard && window.ClipboardItem) {
-                const item = new ClipboardItem({
-                    "text/html": new Blob([html], { type: "text/html" }),
-                    "text/plain": new Blob([html.replace(/<[^>]+>/g, '')], { type: "text/plain" })
-                });
-                await navigator.clipboard.write([item]);
-            } else {
-                const div = document.createElement('div');
-                div.contentEditable = 'true';
-                div.style.position = 'fixed';
-                div.style.left = '-9999px';
-                div.innerHTML = html;
-                document.body.appendChild(div);
-                const range = document.createRange();
-                range.selectNodeContents(div);
-                const sel = window.getSelection();
-                sel.removeAllRanges();
-                sel.addRange(range);
-                document.execCommand('copy');
-                sel.removeAllRanges();
-                document.body.removeChild(div);
-            }
-        }
-        
-        function inlineTableHTML(tableEl) {
-            const t = tableEl.cloneNode(true);
-            t.removeAttribute('class');
-            t.style.borderCollapse = 'collapse';
-            t.style.width = '100%';
-            t.querySelectorAll('th, td').forEach(cell => {
-                cell.style.border = '1px solid #9e9e9e';
-                cell.style.padding = '8px 12px';
-            });
-            t.querySelectorAll('th').forEach(th => {
-                th.style.background = '#A5D6A7';
-                th.style.fontWeight = '600';
-                th.style.color = '#1B5E20';
-            });
-            return t.outerHTML;
-        }
-        
-        function showSuccess(message) {
-            const statusDiv = document.getElementById('fileStatus');
-            statusDiv.innerHTML = `<div class="success">${message}</div>`;
-            setTimeout(() => {
-                statusDiv.innerHTML = '';
-            }, 3000);
-        }
-        
-        function showError(message) {
-            const statusDiv = document.getElementById('fileStatus');
-            statusDiv.innerHTML = `<div class="error">${message}</div>`;
-        }
-        
-        function downloadCsv() {
-            if (processedData.length === 0) {
-                alert('Nenhum dado para exportar. Processe um arquivo primeiro.');
-                return;
-            }
-            
-            let content = 'Classificacao;Nome;Programa\n';
-            
-            processedData.forEach(item => {
-                const nome = item.nome.replace(/"/g, '""');
-                const programa = item.programa.replace(/"/g, '""');
-                
-                const nomeFormatted = /[;,"\n\r]/.test(item.nome) ? `"${nome}"` : nome;
-                const programaFormatted = /[;,"\n\r]/.test(item.programa) ? `"${programa}"` : programa;
-                
-                content += `${item.classificacao};${nomeFormatted};${programaFormatted}\n`;
-            });
-            
-            const bom = '\uFEFF';
-            const blob = new Blob([bom + content], { type: 'text/csv;charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'classificacao_geral.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }
-        
-        window.addEventListener('load', function() {
-            if (window.fs && window.fs.readFile) {
-                loadDefaultFile();
-            }
-        });
-        
-        async function loadDefaultFile() {
-            try {
-                const fileContent = await window.fs.readFile('classificacao2025.csv', { encoding: 'utf8' });
-                
-                Papa.parse(fileContent, {
-                    header: true,
-                    skipEmptyLines: true,
-                    delimiter: ';',
-                    complete: function(results) {
-                        processData(results.data, results.meta.fields);
-                        document.getElementById('fileStatus').innerHTML = '<div class="success">Arquivo padrão carregado automaticamente!</div>';
-                    }
-                });
-            } catch (error) {
-                console.log('Arquivo padrão não encontrado, aguardando upload manual.');
-            }
-        }
-    </script>
+        rank++;
+        outrasCount++;
+      }
+    });
+  }
+
+  return { classificados, ffclrpCount, outrasCount };
+}
+
+function downloadXLSX() {
+  const { classificados } = buildClassificacaoGeral();
+
+  const aoa = [['Classificação', 'Nome', 'Programa']];
+  classificados.forEach(item => {
+    aoa.push([item.classificacao, item.nome, item.programa]);
+  });
+
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = [{ wch: 14 }, { wch: 42 }, { wch: 30 }];
+
+  // Bold header
+  const range = XLSX.utils.decode_range(ws['!ref']);
+  for (let c = range.s.c; c <= range.e.c; c++) {
+    const addr = XLSX.utils.encode_cell({ r: 0, c });
+    if (ws[addr]) ws[addr].s = { font: { bold: true } };
+  }
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Classificação Geral');
+  XLSX.writeFile(wb, 'Classificacao_Geral_PAE.xlsx');
+}
+
+/**
+ * Builds and downloads the consolidated matrix: one column per FFCLRP Programa
+ * (in the resolved finalOrder), with candidate names listed top-to-bottom in
+ * each column, preserving the original row order from each source file. This
+ * is the same matrix used internally to produce the general ranking — useful
+ * for manually verifying inconsistencies before relying on the final output.
+ */
+function downloadMatrixXLSX() {
+  const headers = state.finalOrder.slice();
+  const cols = headers.map(prog => {
+    const f = state.ffclrpFiles.find(x => x.programa === prog);
+    return f ? f.nomes.slice() : [];
+  });
+  const maxRows = Math.max(...cols.map(c => c.length), 0);
+
+  const aoa = [headers];
+  for (let r = 0; r < maxRows; r++) {
+    aoa.push(cols.map(c => c[r] || ''));
+  }
+
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = headers.map(h => ({ wch: Math.max(20, String(h).length + 4) }));
+
+  const range = XLSX.utils.decode_range(ws['!ref']);
+  for (let c = range.s.c; c <= range.e.c; c++) {
+    const addr = XLSX.utils.encode_cell({ r: 0, c });
+    if (ws[addr]) ws[addr].s = { font: { bold: true } };
+  }
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Consolidada');
+  XLSX.writeFile(wb, 'Planilha_Consolidada_PAE.xlsx');
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+function resetAll() {
+  state.outrasFile = null;
+  state.ffclrpFiles = [];
+  state.tieResolution = null;
+  state.finalOrder = null;
+
+  // Clear UI
+  document.getElementById('outrasList').innerHTML = '';
+  document.getElementById('ffclrpList').innerHTML = '';
+  document.getElementById('dropOutras').classList.remove('done');
+  document.getElementById('dropFFCLRP').classList.remove('done');
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('tiebreakerArea').classList.add('hidden');
+  document.getElementById('downloadArea').classList.add('hidden');
+  document.getElementById('resetArea').classList.add('hidden');
+  clearError();
+
+  // Reset file inputs
+  document.getElementById('inputOutras').value = '';
+  document.getElementById('inputFFCLRP').value = '';
+
+  // Smooth scroll back to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+setupDropZone('dropOutras', 'inputOutras', false);
+setupDropZone('dropFFCLRP', 'inputFFCLRP', true);
+document.getElementById('resetBtn').addEventListener('click', resetAll);
+</script>
+
 </body>
 </html>
